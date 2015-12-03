@@ -1,0 +1,27 @@
+---
+driver:
+  name: azurerm
+  subscription_id: <%= ENV['AZURE_SUBSCRIPTION_ID'] %>
+  location: 'Central US'
+  machine_size: Standard_D1 
+  
+transport:
+  name: winrm
+
+provisioner:
+  name: chef_zero
+
+platforms:
+  - name: win2012r2-chef12.4
+    driver:
+      image_urn: MicrosoftWindowsServer:WindowsServer:2012-R2-Datacenter:latest
+    provisioner:
+      require_chef_omnibus: 12.4
+  - name: win2012r2-chef12.5
+    provisioner:
+      require_chef_omnibus: 12.5
+
+suites:
+  - name: default
+    run_list:
+      - recipe[minimal::default]
