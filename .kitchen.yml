@@ -25,3 +25,6 @@ suites:
   - name: default
     run_list:
       - recipe[minimal::default]
+  - name: ciminstance
+    run_list:
+      - recipe[minimal::ciminstance]
