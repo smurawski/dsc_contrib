@@ -14,8 +14,23 @@ This allows you to control reboot requests from DSC in a Chef-friendly fashion.
 
 This cookbook adds `reboot_action` to Chef 12.4.x and 12.5.x.
 
-## Recipes
+## Helpers
 
-### `dsc_resource_lcm_setup`
+### cim_instance and cim_instance_array
+This cookbook adds `cim_instance` and `cim_instance_array` helpers to the `dsc_resource` resource.  This helps support embedded CIM instances for DSC resources that require them.
 
-This recipe will set the DSC Local Configuration Manager (LCM) to disabled for the PowerShell 5 preview builds that require it to use `dsc_resource`
+Both `cim_instance` and `cim_instance_array` have the first parameter as the cim instance type and the remaining parameter make up a hash table of the properties to be converted into a CIM instance.
+
+The difference between the helper methods is some resources expect a single CIM instance and some expect an array.  PowerShell will not cast it a single instance into an array, so we have to specify that.
+
+## Resources
+
+### `local_configuration_manager`
+
+This resource will configure some of the basic LCM settings for use with Chef.  There is currenlty only one action - `:enable`
+
+* `action_after_reboot` - defaults to 'StopConfiguration'
+* `certificate_id' - default to $null
+* `configuration_mode` - defaults to 'ApplyOnly'
+* `reboot_node_if_needed` - defaults to $false
+* `debug_mode` - defaults to 'NONE'

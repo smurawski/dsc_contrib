@@ -1,6 +1,6 @@
 #
 # Author:: Steven Murawski (<smurawski@chef.io>)
-# Coypright:: Coypright (c) 201 Chef Software, Inc.
+# Coypright:: Coypright (c) 2016 Chef Software, Inc.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,6 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
 require 'chef/mixin/powershell_type_coercions'
 
 module DscContrib
