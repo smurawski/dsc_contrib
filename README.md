@@ -1,3 +1,5 @@
+
+
 # dsc_contrib
 
 This cookbook exists to augment the integration of Chef and Windows PowerShell Desired State Configuration (DSC).
@@ -22,6 +24,25 @@ This cookbook adds `cim_instance` and `cim_instance_array` helpers to the `dsc_r
 Both `cim_instance` and `cim_instance_array` have the first parameter as the cim instance type and the remaining parameter make up a hash table of the properties to be converted into a CIM instance.
 
 The difference between the helper methods is some resources expect a single CIM instance and some expect an array.  PowerShell will not cast it a single instance into an array, so we have to specify that.
+
+### ps_module_spec
+The `ps_module_spec` helper allows you to identify which side by side resource to use when multiple exist on a system.
+
+No version specified: 
+
+```
+dsc_resource 'blah' do
+  module_version ps_module_spec("SomeModule")
+  ...
+```
+
+Version specified:
+
+```
+dsc_resource 'blah' do
+  module_version ps_module_spec("SomeModule", "1.2.4.5")
+  ...
+```
 
 ## Resources
 
