@@ -2,19 +2,18 @@
 driver:
   name: azurerm
   subscription_id: <%= ENV['AZURE_SUBSCRIPTION_ID'] %>
-  location: 'Central US'
-  machine_size: Standard_D1 
+  location: 'South Central US'
+  machine_size: Standard_D2
   
 transport:
   name: winrm
   elevated: true
 
-
 provisioner:
   name: chef_zero
   retry_on_exit_code:
     - 35 # 35 is the exit code signaling that the node is rebooting
-  max_retries: 1
+  max_retries: 2
   wait_for_retry: 90
 
 platforms:

@@ -65,7 +65,7 @@ module DscContrib
     end
 
     def cim_instance_script
-      "([Microsoft.Management.Infrastructure.CimInstance[]]((#{instances.join('),(')})))"
+      "([Microsoft.Management.Infrastructure.CimInstance[]]((#{@instances.join('),(')})))"
     end
 
     def to_psobject
