@@ -1,3 +1,14 @@
+unless Chef::Platform.supports_dsc_invoke_resource?(node)
+  include_recipe 'powershell::powershell5'
+
+  reboot 'Now' do
+    action :reboot_now
+    guard_interpreter :powershell_script
+    not_if '$psversiontable.psversion.major -ge 5'
+    delay_mins 1
+  end
+end
+
 powershell_script "deps" do
   code <<-EOH
     install-packageprovider nuget -force -forcebootstrap
@@ -5,17 +16,51 @@ powershell_script "deps" do
   EOH
 end
 
-dsc_resource 'Test BindingIndfo' do
+dsc_resource 'Install IIS' do
+  resource :windowsfeature
+  property :name, 'web-server'
+  property :ensure, 'Present'
+  reboot_action :request_reboot
+end
+
+dsc_resource 'Test With One BindingInfo' do
   resource :xWebsite
   property :ensure, 'Present'
   property :name, 'test'
   property :state, 'started'
   property :physicalpath, 'c:\inetpub\wwwroot'
-  property :bindinginfo , cim_instance_array(
-    'MSFT_xWebBindingInformation',
-    Protocol: 'http',
-    Port: 80,
-    Hostname: 'localhost'
-    )
-  #property :psdscrunascredential, ps_credential('vagrant', 'vagrant')
+  property :bindinginfo, cim_instance_array_helper(
+    [
+      cim_instance(
+        'MSFT_xWebBindingInformation',
+        Protocol: 'http',
+        Port: 80,
+        Hostname: 'localhost'
+      ),
+    ]
+  )
+end
+
+dsc_resource 'Test With Two BindingInfo' do
+  resource :xWebsite
+  property :ensure, 'Present'
+  property :name, 'test'
+  property :state, 'started'
+  property :physicalpath, 'c:\inetpub\wwwroot'
+  property :bindinginfo, cim_instance_array_helper(
+    [
+      cim_instance(
+        'MSFT_xWebBindingInformation',
+        Protocol: 'http',
+        Port: 80,
+        Hostname: 'localhost'
+      ),
+      cim_instance(
+        'MSFT_xWebBindingInformation',
+        Protocol: 'http',
+        Port: 80,
+        Hostname: 'outbound'
+      ),
+    ]
+  )
 end

@@ -26,6 +26,9 @@ module DscContrib
     def cim_instance_array(name, *properties)
       DscContrib::CimConverter.new(name, properties, true)
     end
+    def cim_instance_array_helper(instances)
+      DscContrib::CimInstanceArray.new(instances)
+    end
   end
 
   class CimConverter
@@ -47,6 +50,25 @@ module DscContrib
 
     def to_psobject
       return cim_instance_array_script if @is_array
+      cim_instance_script
+    end
+
+    alias to_s to_psobject
+    alias to_text to_psobject
+  end
+
+  class CimInstanceArray
+    include Chef::Mixin::PowershellTypeCoercions
+
+    def initialize(instances)
+      @instances = instances
+    end
+
+    def cim_instance_script
+      "([Microsoft.Management.Infrastructure.CimInstance[]]((#{@instances.join('),(')})))"
+    end
+
+    def to_psobject
       cim_instance_script
     end
 

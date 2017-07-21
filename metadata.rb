@@ -4,7 +4,7 @@ maintainer_email 'smurawski@chef.io'
 license 'apache2'
 description 'Helpers and previews of DSC functionality'
 long_description 'Helpers and previews of DSC functionality'
-version '0.5.0'
+version '0.6.0'
 
 source_url 'https://github.com/smurawski/dsc_contrib' if respond_to?(:source_url)
 issues_url 'https://github.com/smurawski/dsc_contrib/issues' if respond_to?(:issues_url)
