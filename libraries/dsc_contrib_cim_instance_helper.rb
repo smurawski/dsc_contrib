@@ -26,6 +26,9 @@ module DscContrib
     def cim_instance_array(name, *properties)
       DscContrib::CimConverter.new(name, properties, true)
     end
+    def cim_instance_array_helper(instances)
+      DscContrib::CimInstanceArray.new(instances)
+    end
   end
 
   class CimConverter
