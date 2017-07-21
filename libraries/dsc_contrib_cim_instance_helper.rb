@@ -53,6 +53,25 @@ module DscContrib
     alias to_s to_psobject
     alias to_text to_psobject
   end
+
+  class CimInstanceArray
+    include Chef::Mixin::PowershellTypeCoercions
+
+    def initialize(instances)
+      @instances = instances
+    end
+
+    def cim_instance_script
+      "([Microsoft.Management.Infrastructure.CimInstance[]]((#{instances.join('),(')})))"
+    end
+
+    def to_psobject
+      cim_instance_script
+    end
+
+    alias to_s to_psobject
+    alias to_text to_psobject
+  end
 end
 
 Chef::Resource::DscResource.send(:include, DscContrib::CimInstanceHelper)

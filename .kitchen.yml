@@ -7,19 +7,20 @@ driver:
   
 transport:
   name: winrm
+  elevated: true
+
 
 provisioner:
   name: chef_zero
+  retry_on_exit_code:
+    - 35 # 35 is the exit code signaling that the node is rebooting
+  max_retries: 1
+  wait_for_retry: 90
 
 platforms:
-  - name: win2012r2-chef12.4
+  - name: win2012r2
     driver:
       image_urn: MicrosoftWindowsServer:WindowsServer:2012-R2-Datacenter:latest
-    provisioner:
-      require_chef_omnibus: 12.4
-  - name: win2012r2-chef12.5
-    provisioner:
-      require_chef_omnibus: 12.5
 
 suites:
   - name: default

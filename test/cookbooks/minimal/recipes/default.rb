@@ -7,6 +7,7 @@ unless Chef::Platform.supports_dsc_invoke_resource?(node)
     action :reboot_now
     guard_interpreter :powershell_script
     not_if '$psversiontable.psversion.major -ge 5'
+    delay_mins 1
   end
 end
 
