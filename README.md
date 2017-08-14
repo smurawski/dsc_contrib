@@ -32,7 +32,7 @@ No version specified:
 
 ```
 dsc_resource 'blah' do
-  module_version ps_module_spec("SomeModule")
+  module_name ps_module_spec("SomeModule")
   ...
 ```
 
@@ -40,7 +40,7 @@ Version specified:
 
 ```
 dsc_resource 'blah' do
-  module_version ps_module_spec("SomeModule", "1.2.4.5")
+  module_name ps_module_spec("SomeModule", "1.2.4.5")
   ...
 ```
 
